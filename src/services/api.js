@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// API Base URL (use direct backend URL; Vite proxy is disabled)
-const API_BASE_URL = 'http://localhost:5001/api';
+// API Base URL - ใช้ environment variable หรือ fallback เป็น production URL
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://symposium.sacit.or.th/api';
 
 // Create axios instance with default config
 export const api = axios.create({

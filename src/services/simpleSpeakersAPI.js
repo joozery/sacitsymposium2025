@@ -1,5 +1,5 @@
 // Simple direct API calls without complex dependencies
-const API_URL = 'http://localhost:5001/api/speakers';
+const API_URL = `${import.meta.env.VITE_API_BASE_URL || 'https://symposium.sacit.or.th/api'}/speakers`;
 
 export const simpleSpeakersAPI = {
   async getAllSpeakers() {
