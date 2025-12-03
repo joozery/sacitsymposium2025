@@ -1,0 +1,20 @@
+# Frontend Environment Variables Example
+# Copy these settings to your .env.local (Next.js) or .env (React) file
+
+# Production API URL (Heroku)
+NEXT_PUBLIC_API_URL=https://backendsacit-42f532a9097c.herokuapp.com
+
+# Development API URL (when running backend locally)
+# NEXT_PUBLIC_API_URL=http://localhost:5470
+
+# For different React frameworks:
+# Create React App:
+REACT_APP_API_URL=https://backendsacit-42f532a9097c.herokuapp.com
+
+# Vite:
+VITE_API_URL=https://backendsacit-42f532a9097c.herokuapp.com
+
+# Instructions:
+# 1. Copy this file content to your project's .env.local file
+# 2. Choose the appropriate variable name based on your framework
+# 3. The API will fallback to Heroku URL if no environment variable is set

@@ -96,6 +96,9 @@ const Layout = ({ children }) => {
     { icon: Film, label: 'สื่อมัลติมีเดีย', path: '/admin/multimedia', description: 'จัดการวิดีโอและภาพถ่าย' },
     { icon: BookOpen, label: 'E-Book', path: '/admin/ebooks', description: 'จัดการผลงาน E-Book' },
     { icon: ClipboardCheck, label: 'ตรวจสอบผลงาน', path: '/admin/submissions-review', description: 'ประเมินและตัดสินผลงาน' },
+    { icon: FileText, label: 'Symposium EN', path: '/admin/symposium-en', description: 'จัดการเนื้อหา Symposium (EN)' },
+    { icon: FileText, label: 'Symposium TH', path: '/admin/symposium-th', description: 'จัดการเนื้อหา Symposium (TH)' },
+    { icon: Briefcase, label: 'หมวดหมู่ผลงาน', path: '/admin/work-categories', description: 'จัดการหมวดหมู่ผลงาน' },
     { icon: Users, label: 'ผู้ใช้งาน', path: '/admin/users', description: 'จัดการผู้ใช้งานระบบ' },
     { icon: FileText, label: 'เทมเพลต', path: '/admin/templates', description: 'จัดการเทมเพลตเอกสาร' },
     { icon: Settings, label: 'ตั้งค่า', path: '/admin/settings', description: 'ตั้งค่าระบบโดยรวม' }

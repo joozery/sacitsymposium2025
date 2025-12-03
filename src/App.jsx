@@ -11,6 +11,10 @@ import MultimediaPage from '@/pages/Multimedia/index';
 import SubmissionsReviewPage from '@/pages/SubmissionsReview/index';
 import UsersPage from '@/pages/Users/index';
 import TemplatesPage from '@/pages/Templates/index';
+import SymposiumEnContentPage from '@/pages/SymposiumEnContent/index';
+import SymposiumThContentPage from '@/pages/SymposiumThContent/index';
+import WorkCategoriesPage from '@/pages/WorkCategories/index';
+import CertificateTemplateEditor from '@/pages/Templates/CertificateTemplateEditor';
 import EbooksPage from '@/pages/Ebooks/index';
 import SettingsPage from '@/pages/Settings/index';
 import ExhibitionsPage from '@/pages/Exhibitions/index';
@@ -145,6 +149,11 @@ const AppWithNavbar = () => {
         <Route path="/checkin" element={<CheckInPage />} />
         <Route path="/account" element={<Account />} />
         <Route path="/my-account" element={<Account />} />
+        
+        {/* Certificate Template Editor - Full Screen (No Sidebar) */}
+        <Route path="/admin/templates/new" element={<CertificateTemplateEditor />} />
+        <Route path="/admin/templates/edit/:id" element={<CertificateTemplateEditor />} />
+        
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="dashboard" element={<Dashboard />} />
@@ -157,6 +166,9 @@ const AppWithNavbar = () => {
           <Route path="google-analytics" element={<GoogleAnalytics />} />
           <Route path="multimedia" element={<MultimediaPage />} />
           <Route path="submissions-review" element={<SubmissionsReviewPage />} />
+          <Route path="symposium-en" element={<SymposiumEnContentPage />} />
+          <Route path="symposium-th" element={<SymposiumThContentPage />} />
+          <Route path="work-categories" element={<WorkCategoriesPage />} />
           <Route path="users" element={<UsersPage />} />
           <Route path="templates" element={<TemplatesPage />} />
           <Route path="ebooks" element={<EbooksPage />} />

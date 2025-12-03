@@ -224,16 +224,120 @@ const Account = () => {
 
 
 
+  const generateCertificateImage = async (certificate) => {
+    return new Promise((resolve, reject) => {
+      try {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Set canvas size from template
+        canvas.width = certificate.template_width || 1200;
+        canvas.height = certificate.template_height || 900;
+        
+        // Draw background
+        if (certificate.background_url) {
+          const img = new Image();
+          img.crossOrigin = 'anonymous';
+          img.onload = () => {
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            drawElements();
+          };
+          img.onerror = () => {
+            console.error('Failed to load background image');
+            drawDefaultBackground();
+            drawElements();
+          };
+          img.src = `http://localhost:5001${certificate.background_url}`;
+        } else {
+          drawDefaultBackground();
+          drawElements();
+        }
+        
+        function drawDefaultBackground() {
+          ctx.fillStyle = '#F7FAFC';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        
+        function drawElements() {
+          const elements = certificate.template_elements || [];
+          
+          elements.forEach(element => {
+            ctx.save();
+            
+            let fontFamily = element.fontFamily || 'Prompt';
+            if (fontFamily === 'Prompt' || fontFamily === 'Prompt-Bold' || fontFamily === 'Prompt-Light') {
+              fontFamily = 'Prompt, "Noto Sans Thai", Arial, sans-serif';
+            } else {
+              fontFamily = `${fontFamily}, Arial, sans-serif`;
+            }
+            
+            ctx.font = `${element.fontSize}px ${fontFamily}`;
+            ctx.fillStyle = element.color || '#000000';
+            ctx.textAlign = element.alignment || 'center';
+            ctx.textBaseline = 'middle';
+            
+            // Replace placeholders with actual data
+            let content = element.content;
+            if (element.type === 'placeholder' || content.includes('{{')) {
+              content = content
+                .replace(/\{\{recipientName\}\}|\{\{ชื่อผู้รับ\}\}/gi, `${user.first_name} ${user.last_name}`)
+                .replace(/\{\{eventName\}\}/gi, certificate.event_name || 'SACIT Symposium 2025')
+                .replace(/\{\{date\}\}|\{\{วันที่\}\}/gi, new Date(certificate.event_date || Date.now()).toLocaleDateString('th-TH'));
+            }
+            
+            ctx.fillText(content, element.x, element.y);
+            ctx.restore();
+          });
+          
+          // Convert to image
+          const imageData = canvas.toDataURL('image/png');
+          resolve(imageData);
+        }
+      } catch (error) {
+        console.error('Error generating certificate image:', error);
+        reject(error);
+      }
+    });
+  };
+
   const fetchCertificateData = async () => {
     setCertificateLoading(true);
     try {
-      console.log('🔍 Fetching certificate data...');
+      console.log('🔍 Fetching certificate data for user:', user.id);
       
-      const response = await api.get('/users/certificates');
+      const response = await api.get(`/certificates/user/${user.id}`);
       console.log('✅ Certificate data received:', response.data);
       
-      if (response.data.success) {
-        setCertificateData(response.data.data);
+      if (response.data.success && response.data.data) {
+        const certificates = response.data.data;
+        
+        // Generate images for each certificate
+        const certificatesWithImages = await Promise.all(
+          certificates.map(async (cert) => {
+            try {
+              const imageData = await generateCertificateImage(cert);
+              return {
+                ...cert,
+                imageData,
+                recipientName: `${user.first_name} ${user.last_name}`,
+                eventName: cert.event_name || 'SACIT Symposium 2025',
+                date: new Date(cert.event_date || Date.now()).toLocaleDateString('th-TH')
+              };
+            } catch (error) {
+              console.error('Error generating image for certificate:', cert.id, error);
+              return {
+                ...cert,
+                imageData: null,
+                recipientName: `${user.first_name} ${user.last_name}`,
+                eventName: cert.event_name || 'SACIT Symposium 2025',
+                date: new Date(cert.event_date || Date.now()).toLocaleDateString('th-TH')
+              };
+            }
+          })
+        );
+        
+        setUserCertificates(certificatesWithImages);
+        console.log('📜 User certificates with images:', certificatesWithImages);
       }
     } catch (error) {
       console.error('❌ Error fetching certificate:', error);

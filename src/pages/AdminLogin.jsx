@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Eye, EyeOff, Shield, Lock, User, Server } from 'lucide-react';
+import { Eye, EyeOff, Shield, Lock, User } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useToast } from '@/components/ui/use-toast';
 
@@ -108,14 +108,6 @@ const AdminLogin = () => {
             </div>
             <h1 className="text-2xl font-bold text-gray-800 mb-2">Admin Login</h1>
             <p className="text-gray-600 text-sm">เข้าสู่ระบบจัดการ SACIT</p>
-          </div>
-
-          {/* LDAP Server Info */}
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-            <div className="flex items-center gap-2 text-blue-700 text-sm">
-              <Server className="w-4 h-4" />
-              <span>เชื่อมต่อกับ LDAP Server: 172.16.0.2</span>
-            </div>
           </div>
 
           {/* Error Message */}

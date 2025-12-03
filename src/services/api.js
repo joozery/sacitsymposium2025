@@ -1,12 +1,12 @@
 import axios from 'axios';
 
 // API Base URL - ใช้ environment variable หรือ fallback เป็น production URL
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://symposium.sacit.or.th/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001/api';
 
 // Create axios instance with default config
 export const api = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 10000, // 10 seconds timeout
+  timeout: 60000, // 60 seconds timeout (increased for slow queries)
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json'
